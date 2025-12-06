@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>ทดสอบเปิดกล้อง พี่มิกซ์สุดหล่อ</title>
+</head>
+<body>
+
+<h2>ทดสอบเปิดกล้องด้วย</h2>
+
+<video id="video" width="320" height="240" autoplay playsinline></video>
+<button onclick="takePhoto()">ถ่ายรูป</button>
+
+<canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
+<br>
+<img id="output" width="320">
+
+<script>
+navigator.mediaDevices.getUserMedia({ video: true })
+    .then(stream => {
+        document.getElementById('video').srcObject = stream;
+    })
+    .catch(err => {
+        alert("ไม่สามารถเปิดกล้องได้: " + err);
+    });
+
+function takePhoto() {
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const output = document.getElementById('output');
+    const ctx = canvas.getContext('2d');
+
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    output.src = canvas.toDataURL("image/png");
+}
+</script>
+
+</body>
+</html>
